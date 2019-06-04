@@ -1,6 +1,5 @@
 const axios = require('axios');
 const _ = require('underscore');
-const jsonfile = require('jsonfile');
 const fs = require('fs');
 
 
@@ -14,9 +13,9 @@ const getMaxPokemon = () => {
 }
 
 
-const getPokemon = (count) => {
+const getPokemon = (from, through) => {
 	let promises = [];
-	for (let i = 1; i < count; i++) {
+	for (let i = from; i <= through; i++) {
 		promises.push(
 			axios.get(baseURL + i)
 			.then(response => {
@@ -28,9 +27,8 @@ const getPokemon = (count) => {
 	
 }
 
-getPokemon(100).then(results => {
+getPokemon(701, 807).then(results => {
 	const file = './pokemon.json';
-	// const obj = JSON.stringify(result, null, 4);
 	const allowed = ['name', 'order', 'id', 'order', 'stats', 'types']
 	const pokemon = []
 
@@ -44,9 +42,6 @@ getPokemon(100).then(results => {
 		pokemon.push(filtered)
 	})
 
-	// jsonfile.writeFile(file, pokemon, function(err) {
-	// 	if (err) console.log(err)
-	// })
-	fs.writeFile(file, JSON.stringify(pokemon), null, 4)
+	fs.appendFile(file, JSON.stringify(pokemon, null, 4))
 	
 })
