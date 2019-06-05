@@ -27,21 +27,32 @@ const getPokemon = (from, through) => {
 	
 }
 
-getPokemon(701, 807).then(results => {
+getPokemon(601, 807).then(results => {
 	const file = './pokemon.json';
 	const allowed = ['name', 'order', 'id', 'order', 'stats', 'types']
 	const pokemon = []
 
 	results.forEach(result => {
+		// return only objs in allowed
 		let filtered = Object.keys(result)
-		.filter(key => allowed.includes(key))
-		.reduce((obj, key) => {
-			obj[key] = result[key];
-			return obj;
-		}, {})
+			.filter(key => allowed.includes(key))
+			.reduce((obj, key) => {
+				obj[key] = result[key];
+				return obj;
+			}, {})
+
+		// add total of all stats as total in stats
+		let total = 0;
+		filtered.stats.forEach(stat => {
+			total += stat.base_stat
+		})
+		filtered.stats.push({base_stat: total, stat: {name: 'total'}})
+
+		// add the mutated obj to the container
 		pokemon.push(filtered)
 	})
 
+	// write the container to the file
 	fs.appendFile(file, JSON.stringify(pokemon, null, 4))
 	
 })
