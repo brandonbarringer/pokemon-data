@@ -27,7 +27,26 @@ const getPokemon = (from, through) => {
 	
 }
 
-getPokemon(601, 807).then(results => {
+const setMaxStat = (obj) => {
+	switch(obj.stat.name) {
+		case 'speed':
+			return 504;
+		case 'special-defense':
+			return 614;
+		case 'special-attack':
+			return 504;
+		case 'defense':
+			return 614;
+		case 'attack':
+			return 504;
+		case 'hp':
+			return 714;
+		default:
+			console.log('no name in stat' + obj.stat.name)
+	}
+}
+
+getPokemon(701, 807).then(results => {
 	const file = './pokemon.json';
 	const allowed = ['name', 'order', 'id', 'order', 'stats', 'types']
 	const pokemon = []
@@ -44,6 +63,7 @@ getPokemon(601, 807).then(results => {
 		// add total of all stats as total in stats
 		let total = 0;
 		filtered.stats.forEach(stat => {
+			stat.max_stat = setMaxStat(stat)
 			total += stat.base_stat
 		})
 		filtered.stats.push({base_stat: total, stat: {name: 'total'}})
