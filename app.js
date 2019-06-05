@@ -46,7 +46,7 @@ const setMaxStat = (obj) => {
 	}
 }
 
-getPokemon(701, 807).then(results => {
+getPokemon(601, 807).then(results => {
 	const file = './pokemon.json';
 	const allowed = ['name', 'order', 'id', 'order', 'stats', 'types']
 	const pokemon = []
@@ -61,17 +61,22 @@ getPokemon(701, 807).then(results => {
 			}, {})
 
 		// add total of all stats as total in stats
-		let total = 0;
+		let base_total = 0;
+		let max_total = 0;
 		filtered.stats.forEach(stat => {
 			stat.max_stat = setMaxStat(stat)
-			total += stat.base_stat
+			base_total += stat.base_stat
+			max_total += stat.max_stat
 		})
-		filtered.stats.push({base_stat: total, stat: {name: 'total'}})
+		filtered.stats.push({
+			base_stat: base_total,
+			max_stat: max_total,
+			stat: {name: 'total'}
+		})
 
 		// add the mutated obj to the container
 		pokemon.push(filtered)
 	})
-
 	// write the container to the file
 	fs.appendFile(file, JSON.stringify(pokemon, null, 4))
 	
