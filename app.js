@@ -62,15 +62,11 @@ getPokemon(601, 807).then(results => {
 
 		// add total of all stats as total in stats
 		let base_total = 0;
-		let max_total = 0;
 		filtered.stats.forEach(stat => {
-			stat.max_stat = setMaxStat(stat)
 			base_total += stat.base_stat
-			max_total += stat.max_stat
 		})
 		filtered.stats.push({
 			base_stat: base_total,
-			max_stat: max_total,
 			stat: {name: 'total'}
 		})
 
