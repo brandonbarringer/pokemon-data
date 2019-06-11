@@ -2,9 +2,6 @@ const axios = require('axios');
 const _ = require('underscore');
 
 const baseURL = 'https://pokeapi.co/api/v2/pokemon/';
-let pokemon = {}
-
-
 
 const getBaseData = (urls) => {
 	return axios.all(urls)
@@ -42,17 +39,17 @@ const getBaseStats = (statObj) => {
 const getAbilities = (abilityObj) => {
 	let urls = [];
 	let promises;
-	let hiddenArr = []
+	let hiddenArr = [];
 	// for each ability in the ability obj
 	abilityObj.forEach(ability => {
 		// add the urls to our variable
-		urls.push(ability.ability.url)
+		urls.push(ability.ability.url);
 		// then create an array of objects
 		// that we can match to the promise data
 		hiddenArr.push({
 			isHidden: ability.is_hidden,
 			name: ability.ability.name
-		})
+		});
 	});
 
 	return getPromiseData(urls)
@@ -70,19 +67,18 @@ const getAbilities = (abilityObj) => {
 					// equal to the hidden objects hidden value
 					hidden = hiddenObj.isHidden;
 				}
-
-			})
+			});
 			// create an object with the values we just got
 			abilityData.push({
 				name: res.data.name,
 				id: res.data.id,
 				description: res.data.effect_entries[0].short_effect,
 				isHidden: hidden
-			})
-		})
+			});
+		});
 		// return the final obj
 		return abilityData
-	})
+	});
 };
 
 const getPromiseData = (urls) => {
@@ -92,24 +88,30 @@ const getPromiseData = (urls) => {
 	return axios.all(promises)
 	.then(res => {
 		return res
-	})
+	});
 };
 
 const getMoves = (moveObj) => {
 	let urls = [];
+	// set a bunch of urls for use to fetch
 	moveObj.forEach(move => {
 		urls.push(move.move.url)
-	})
+	});
 	return getPromiseData(urls)
 	.then(moves => {
 		let movesData = [];
 		moves.forEach(move => {
 			let description;
+			// for each flavor text entry
 			 move.data.flavor_text_entries.forEach(text => {
+			 	// only get the english version
 				if (text.language.name === 'en') {
+					// replace '/n' with a space (why the hell did they add newlines?)
+					// then set the description value to the better text
 					description = text.flavor_text.replace(/(?:\r\n|\r|\n)/g, ' ');
 				}
-			})
+			});
+			// create our data obj
 			movesData.push({
 				id: move.data.id,
 				name: move.data.name,
@@ -123,30 +125,32 @@ const getMoves = (moveObj) => {
 				description: description,
 				effectEntries: move.data.effect_entries,
 				effectChance: move.data.effect_chance
-			})
-		})
+			});
+		});
 		return movesData
 	})
 };
 
 const getTypes = (typeObj) => {
 	let urls = [];
+	// create an arr of urls to fetch
 	typeObj.forEach(type => {
 		urls.push(type.type.url)
-	})
+	});
 	return getPromiseData(urls)
 	.then(types => {
 		let typesData = [];
+		// set our data
 		types.forEach(type => {
 			typesData.push({
 				damage: type.data.damage_relations,
 				id: type.data.id,
 				name: type.data.name,
 				damageClass: type.data.move_damage_class.name
-			})
-		})
+			});
+		});
 		return typesData
-	})
+	});
 };
 
 const promiseArray = (url, num) => {
@@ -155,36 +159,40 @@ const promiseArray = (url, num) => {
 		arr.push(axios.get(url + i))
 	}
 	return arr
-} 
+}
 
-getBaseData(promiseArray(baseURL, 2)).then(responses => {
+getBaseData(promiseArray(baseURL, 2))
+.then(responses => {
+	let pokemon = {};
+	// for each set of pokemon data we fetched
 	responses.forEach(res => {
 		// lazy variable
-		const data = res.data
+		const data = res.data;
 		// set our data obj with the easy ones
 		pokemon[data.name] = {
 				id: data.id,
 				order: data.order,
-			}
+			};
 		// set the base stats obj
-		pokemon[data.name].baseStats = getBaseStats(data.stats)
+		pokemon[data.name].baseStats = getBaseStats(data.stats);
+
 		// set the abilities obj
-		getAbilities(data.abilities)
+		pokemon[data.name].abilities = getAbilities(data.abilities)
 		.then(res => {
-			pokemon[data.name].abilities = res
-			getMoves(data.moves)
-			.then(res => {
-				pokemon[data.name].moves = res
-				getTypes(data.types)
-				.then(res => {
-					pokemon[data.name].types = res
-					console.log("pokemon", pokemon)
-				})
-			})
-		})
-	})
-	
-})
+			 return res
+		});
+		// set the... you get the idea
+		pokemon[data.name].moves = getMoves(data.moves)
+		.then(res => {
+			 return res
+		});
+		pokemon[data.name].types = getTypes(data.types)
+		.then(res => {
+			 return res
+		});
+	});
+	return pokemon
+}).then(res => console.log(res))
 
 // const updatePokemon = (minNum, maxNum) => {
 // 	let pokemon = {}
