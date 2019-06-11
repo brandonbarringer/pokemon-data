@@ -6,8 +6,8 @@ let pokemon = {}
 
 
 
-const getBaseData = (url) => {
-	return axios.get(url)
+const getBaseData = (urls) => {
+	return axios.all(urls)
 	.then(res => {
 		return res
 	})
@@ -147,32 +147,43 @@ const getTypes = (typeObj) => {
 		})
 		return typesData
 	})
-}
+};
 
-getBaseData(baseURL + 1).then(res => {
-	// lazy variable
-	const data = res.data
-	// set our data obj with the easy ones
-	pokemon[data.name] = {
-			id: data.id,
-			order: data.order,
-		}
-	// set the base stats obj
-	pokemon[data.name].baseStats = getBaseStats(data.stats)
-	// set the abilities obj
-	getAbilities(data.abilities)
-	.then(res => {
-		pokemon[data.name].abilities = res
-		getMoves(data.moves)
+const promiseArray = (url, num) => {
+	let arr = [];
+	for (var i = 1; i <= num; i++) {
+		arr.push(axios.get(url + i))
+	}
+	return arr
+} 
+
+getBaseData(promiseArray(baseURL, 2)).then(responses => {
+	responses.forEach(res => {
+		// lazy variable
+		const data = res.data
+		// set our data obj with the easy ones
+		pokemon[data.name] = {
+				id: data.id,
+				order: data.order,
+			}
+		// set the base stats obj
+		pokemon[data.name].baseStats = getBaseStats(data.stats)
+		// set the abilities obj
+		getAbilities(data.abilities)
 		.then(res => {
-			pokemon[data.name].moves = res
-			getTypes(data.types)
+			pokemon[data.name].abilities = res
+			getMoves(data.moves)
 			.then(res => {
-				pokemon[data.name].types = res
-				console.log(pokemon)
+				pokemon[data.name].moves = res
+				getTypes(data.types)
+				.then(res => {
+					pokemon[data.name].types = res
+					console.log("pokemon", pokemon)
+				})
 			})
 		})
 	})
+	
 })
 
 // const updatePokemon = (minNum, maxNum) => {
