@@ -1,7 +1,22 @@
 const axios = require('axios');
 const _ = require('underscore');
-
+const firebase = require('firebase');
 const baseURL = 'https://pokeapi.co/api/v2/pokemon/';
+
+const firebaseConfig = {
+	apiKey: "AIzaSyAZr6SOXUHCIUN5aX6zTVG7XnY76oDYPFg",
+	authDomain: "pokemon-team-builder-8cf49.firebaseapp.com",
+	databaseURL: "https://pokemon-team-builder-8cf49.firebaseio.com",
+	projectId: "pokemon-team-builder-8cf49",
+	storageBucket: "pokemon-team-builder-8cf49.appspot.com",
+	messagingSenderId: "766885399002",
+	appId: "1:766885399002:web:b057b550a3c6a500"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+const database = firebase.database();
+
 
 const getBaseData = (urls) => {
 	return axios.all(urls)
@@ -142,57 +157,63 @@ const getTypes = (typeObj) => {
 		let typesData = [];
 		// set our data
 		types.forEach(type => {
+			let dc
+			if(type.data.move_damage_class !== null) {
+				dc = type.data.move_damage_class.name
+			} else {
+				dc = null
+			}
 			typesData.push({
 				damage: type.data.damage_relations,
 				id: type.data.id,
 				name: type.data.name,
-				damageClass: type.data.move_damage_class.name
-			});
-		});
+				damageClass: dc
+			})
+		})
 		return typesData
 	});
 };
 
-const promiseArray = (url, num) => {
+const promiseArray = (url, from, through) => {
 	let arr = [];
-	for (var i = 1; i <= num; i++) {
+	for (var i = from; i <= through; i++) {
 		arr.push(axios.get(url + i))
 	}
 	return arr
 }
 
-getBaseData(promiseArray(baseURL, 2))
+let pokemon = {}
+getBaseData(promiseArray(baseURL, 801, 807))
 .then(responses => {
-	let pokemon = {};
-	// for each set of pokemon data we fetched
 	responses.forEach(res => {
 		// lazy variable
 		const data = res.data;
 		// set our data obj with the easy ones
-		pokemon[data.name] = {
-				id: data.id,
-				order: data.order,
-			};
-		// set the base stats obj
-		pokemon[data.name].baseStats = getBaseStats(data.stats);
 
+		let pokemon = {
+			name: data.name,
+			id: data.id,
+			order: data.order,
+		}
+		// set the base stats obj
+		pokemon.baseStats = getBaseStats(data.stats)
 		// set the abilities obj
 		pokemon[data.name].abilities = getAbilities(data.abilities)
 		.then(res => {
-			 return res
-		});
-		// set the... you get the idea
-		pokemon[data.name].moves = getMoves(data.moves)
-		.then(res => {
-			 return res
-		});
-		pokemon[data.name].types = getTypes(data.types)
-		.then(res => {
-			 return res
-		});
-	});
-	return pokemon
-}).then(res => console.log(res))
+			pokemon.abilities = res
+			getMoves(data.moves)
+			.then(res => {
+				pokemon.moves = res
+				getTypes(data.types)
+				.then(res => {
+					pokemon.types = res
+					database.ref('pokemon').push().set(pokemon)
+					// console.log(pokemon)
+				})
+			})
+		})
+	})
+})
 
 // const updatePokemon = (minNum, maxNum) => {
 // 	let pokemon = {}
