@@ -1,17 +1,11 @@
 const axios = require('axios');
 const _ = require('underscore');
+const config = require('config.js')
 const firebase = require('firebase');
+// const firebaseConfig = config.config;
 const baseURL = 'https://pokeapi.co/api/v2/pokemon/';
 
-const firebaseConfig = {
-	apiKey: "AIzaSyAZr6SOXUHCIUN5aX6zTVG7XnY76oDYPFg",
-	authDomain: "pokemon-team-builder-8cf49.firebaseapp.com",
-	databaseURL: "https://pokemon-team-builder-8cf49.firebaseio.com",
-	projectId: "pokemon-team-builder-8cf49",
-	storageBucket: "pokemon-team-builder-8cf49.appspot.com",
-	messagingSenderId: "766885399002",
-	appId: "1:766885399002:web:b057b550a3c6a500"
-};
+
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
