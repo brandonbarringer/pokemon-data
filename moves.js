@@ -9,7 +9,28 @@ admin.initializeApp({
 });
 
 let db = admin.firestore();
-const pokemon = db.collection('pokemon').limit(1)
+const pokemon = db.collection('pokemon').where('id', '>', 400).where('id', '<=', 500)
+
+// db.runTransaction(transaction => {
+// 	return transaction.get(pokemon)
+// 	.then(query => {
+// 		console.log('query: ', query)
+// 	})
+// 	.catch(err => {
+// 		console.log('err: ', err)
+// 	})
+// })
+// .then(result => {
+// 	console.log('result: ', result)
+// })
+// .catch(err => {
+// 	console.log('last err: ', err)
+// })
+
+// pokemon.get()
+// .then(query => {
+// 	console.log(query)
+// })
 
 pokemon.get()
 .then(query => {
@@ -17,15 +38,13 @@ pokemon.get()
 		let data = doc.data();
 		let name = data.name;
 		let moves = data.moves;
-		// console.log(name)
-		// db.collection('pokemon')
-		// .doc(name)
-		// .collection('moves')
-		// .set({
-		// 	[moves.name]: moves
-		// })
-		console.log({
-			[moves.name]: moves
+		moves.forEach(move => {
+			let moveName = move.name
+			db.collection('pokemon').doc(name).collection('moves').doc(moveName).set(move)
+			.then()
+			.catch(err => {
+				console.log(err)
+			})
 		})
 	})
 })
