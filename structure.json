@@ -1,0 +1,23 @@
+{
+	"pokemon": {
+		"pokemon": {
+			"bulbasaur": {
+				"name": "bulbasaur",
+				"id": null,
+				"speed": null,
+				"attack": null,
+				"defense": null,
+				"specialAttack": null,
+				"specialDefense": null,
+				"hp": null,
+				"moves": ["id", "id", "etc.."],
+				"abilities": ["id", "id", "etc.."],
+				"baseStats": {},
+				"types": [null, null]
+			}
+		},
+		"moves": {},
+		"abilities": {},
+		"damage": {}
+	}
+}

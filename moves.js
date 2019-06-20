@@ -9,42 +9,52 @@ admin.initializeApp({
 });
 
 let db = admin.firestore();
-const pokemon = db.collection('pokemon').where('id', '>', 400).where('id', '<=', 500)
+const pokemon = db.collection('pokemon').where('id', '==', 1)
 
-// db.runTransaction(transaction => {
-// 	return transaction.get(pokemon)
-// 	.then(query => {
-// 		console.log('query: ', query)
-// 	})
-// 	.catch(err => {
-// 		console.log('err: ', err)
-// 	})
-// })
-// .then(result => {
-// 	console.log('result: ', result)
-// })
-// .catch(err => {
-// 	console.log('last err: ', err)
-// })
-
-// pokemon.get()
-// .then(query => {
-// 	console.log(query)
-// })
+const setAbilities = (obj) => {};
+const setDamage = (obj) => {};
+const setTypes = (obj) => {};
 
 pokemon.get()
 .then(query => {
 	query.forEach(doc => {
-		let data = doc.data();
-		let name = data.name;
-		let moves = data.moves;
-		moves.forEach(move => {
-			let moveName = move.name
-			db.collection('pokemon').doc(name).collection('moves').doc(moveName).set(move)
-			.then()
-			.catch(err => {
-				console.log(err)
-			})
-		})
+		const 	data = doc.data(),
+		 		name = data.name,
+		 		abilities = data.abilities,
+		 		types = data.types,
+		 		stats = data.baseStats,
+				newAbilityData = setAbilities(),
+				newTypes = setTypes(),
+				newDamage = setDamage();
+
+			// pokemon.doc(name).set({
+			// 	types: newTypes,
+			// 	damage: newDamage,
+			// 	abilities: newAbilityData
+			// })
+			// pokemon.doc(name).update({
+			// 	types: FieldValue.delete(),
+			// 	abilities: FieldValue.delete()
+			// })
+		/* 
+		abilities: 
+			name: {
+				description,
+				id,
+				isHidden,
+				name
+			}
+		damage:
+			doubleDamageFrom,
+			doubleDamageTo,
+			halfDamageFrom,
+			halfDamageTo,
+		types:
+			name: {
+				damageClass
+				id,
+				name
+			}
+		*/
 	})
 })
