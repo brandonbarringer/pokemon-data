@@ -1,8 +1,8 @@
 {
   "type": "service_account",
   "project_id": "pokemon-team-builder-8cf49",
-  "private_key_id": "ec3c7747db5894d39cde44b6d4847fdc95112793",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEugIBADANBgkqhkiG9w0BAQEFAASCBKQwggSgAgEAAoIBAQCc4hMIvP2PO0Q0\nNgM11Je/cCPPt/qchvmnFrWWh7AID4SNZ+kZknzIvGb+BQmN5UGuqVhJvg2da2bP\ng+lTp704H9jWtO0Qb6nfhYK/ZRCsu4hKp3YnnDvubURZwL4XGpmYrfqTA+vnjqI+\nK8q1jyDIDzhkgG8ExFAF1BR/29X+rP6T6XBNmWm/1yTkJQewS6m3W6hqADUJhbqw\n20GxbIpCii8RCYdG7eEta95zOrc4QEIGdL5MxJaJtQK8Giuu5q29aU8+KiVNiWvi\nG8Jbhk0rDMWB6Qgu9t3xkdey+rHEgLS1MPeEiW4K20LMFqYPP4rh0bb/Yeh/OlEP\nwNIBQ5RNAgMBAAECgf9+ZKVxJNIj01vftKRheiXH1lEDyPXfpd78/w7NeAQaemYQ\nhucF8z8VerR/cw9/gnSog0beIoBVk3IBPgV9oGaSERZh5OIZm90AeFAeYw5MG8py\nWviWcQjXzrCCnwaHFqcomwKF72Lf68pKzH1ESUvf4mNMlSzcak0OZQ8e8740r2g8\nUPrkvvJXvWq6KicFIlg1zPQMZecq/Sb6y2Fnx8j0IeO1E/hPzrOcwGW3hBKSolpZ\nTc3LfiIwXOCoz7fw8sFPQFgR/rTkRnXgZfE7PC7pxMObvs+HFd3EH4TEQLtFTlzc\na4ovHN22mQTp6mi2BjV106kV0KMrmhdUHwBFsEkCgYEA0LK7YmCbZBVS23zZ2p+8\ngPNLAtW72A4qzPf6BUxvfpdC3ni56tzT1PL141bAKHibxMqQBjz0KOWqIsCqctTZ\nAhp9JOQ5DCXUdfL+ts88U4yHKFi/9afnhfo/7TGB0v2hvsMwB8paSGajDk5gg2Jh\n4SZOGqwCdpPjfnq4a74KZmUCgYEAwHDiEqFO5jcpqpG0NTauW4nbsT9tsZzY0xM+\ngBpQ5sNGRLEs8oFXKS+ojF9NNFcfxY49Rq2zWT7jYkgoMY5xWCe5ZThRkbGBA2Yi\ni4rT2waIfzbNUrtR4U3oXrIpvslOgRBfZEWhli/mnfrYLbBcrSo/gSDS6Wd5QIQD\nVfLuA8kCgYAovqxc4ZWU7aDWn0J9L3CDEHzVmdrprKJokAVtIWYnJer1Oka59tEY\nozKkZtxvSlTHD/EcdqwIjAYycMEWWD3h7j/+gtwsZfpb6MwX7s/NVANTOjiIAnbu\nLlRqv56kDcaVUtA+xR/pQLiW43BuVjfb2DmpdWmpsufYWqdEyb6IDQKBgC5rDBzy\nS9W7+JDsFEvBpMzvs85NPmhZLPO88JZ1wo3nDEwFcJIOILgOhtlVI4o8ea1tYdpq\ni5g7Ux2hyhAqC6z36ABCVWqPJk9rk2mVUwTBzqrgzSXniRiPcj1lPCyI4ia/jELj\niNZxN29j0kEzCSe7yRWclUM3ckfdj/BraH4BAoGAEEEl1+ZRw23Fm5y9s0FQcArc\nC3wX4NgqDn9WDiQ5j7um+ppI0LAIklwgVlRVCD06pDIRJfgQ7EztxuGYofppop6v\nn/v9KqELqbJakkba4nkOAJxAkTTsk0IIMyVqN0HwU9rr6kzWW7eqTjaluO2fZgIE\ndfkMKrhRwMwL6+Udd7g=\n-----END PRIVATE KEY-----\n",
+  "private_key_id": "",
+  "private_key": "",
   "client_email": "firebase-adminsdk-sdddi@pokemon-team-builder-8cf49.iam.gserviceaccount.com",
   "client_id": "113685243884808500696",
   "auth_uri": "https://accounts.google.com/o/oauth2/auth",
